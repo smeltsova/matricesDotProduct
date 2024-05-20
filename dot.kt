@@ -34,19 +34,22 @@ class Matrix(val rows: Int, val cols: Int, private val elements: DoubleArray) {
     }
 
     companion object {
-        fun fromFile(file: String): Matrix {
-            val lines = File(file).readLines()
+        fun fromFile(filename: String): Matrix {
+            val file = File(filename)
+            if (!file.exists()) throw FileNotFoundException("File not found: $file")
+
+            val lines = file.readLines()
             val rows = lines.size
-            val cols = lines[0].split(" ").size
+            val cols = lines.first().split(" ").size
             val elements = DoubleArray(rows * cols)
 
             for (row in 0 until rows) {
-                val values = lines[row].split(" ").map { it.toDouble() }
+                val values = lines[row].split(" ")
                 require(values.size == cols) { "The number of elements in a row does not match the number of columns." }
 
                 for (col in 0 until cols) {
                     val index = row * cols + col
-                    elements[index] = values[col]
+                    elements[index] = values[col].toDouble()
                 }
             }
 
