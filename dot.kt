@@ -78,15 +78,18 @@ class Matrix(val rows: Int, val cols: Int, private val elements: DoubleArray) {
 
 fun main(args: Array<String>) {
     if (args.size!= 2) {
-        println("Usage: <file1> <file2>")
+        println("Pass <file1> <file2> as command line arguments")
         return
     }
-
     val filename1 = args[0]
     val filename2 = args[1]
 
-    val matrixA = Matrix.fromFile(filename1)
-    val matrixB = Matrix.fromFile(filename2)
-    val result = matrixA.dotProduct(matrixB)
-    print(result)
+    try {
+        val matrixA = Matrix.fromFile(filename1)
+        val matrixB = Matrix.fromFile(filename2)
+        val result = matrixA.dotProduct(matrixB)
+        print(result)
+    } catch (e: Exception) {
+        println("Error processing matrices: ${e.message}")
+    }
 }
